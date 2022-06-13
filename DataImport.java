@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public class DataImport {
     public static void main(String[] args) {
         dataImportFromFile(new File("D:\\Studium\\DHBW\\2. Theoriesemester\\Programmieren\\Projekt\\contacts2021.db.txt"));
+        dataImportFromFile(new File("C:\\Studium\\ProgrammierenJava\\Projekt\\contacts2021.db.txt"));
 
     }
 
