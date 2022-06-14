@@ -1,5 +1,5 @@
 public class Person {
-    private String id;
+    private int id;
     private String name;
 
 
@@ -7,7 +7,7 @@ public class Person {
 
 
     //Konstruktor
-    public Person(String id, String name) {
+    public Person(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -18,11 +18,11 @@ public class Person {
 
 
     //Getter-Setter
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

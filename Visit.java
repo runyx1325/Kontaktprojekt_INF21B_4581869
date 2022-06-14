@@ -1,12 +1,12 @@
 import java.time.LocalDateTime;
 
-public class Besuch {
+public class Visit {
     private LocalDateTime startToday;
     private LocalDateTime endToday;
-    private String person_id;
-    private String location_id;
+    private int person_id;
+    private int location_id;
 
-    public Besuch(LocalDateTime startToday, LocalDateTime endToday, String person_id, String location_id) {
+    public Visit(LocalDateTime startToday, LocalDateTime endToday, int person_id, int location_id) {
         this.startToday = startToday;
         this.endToday = endToday;
         this.person_id = person_id;
