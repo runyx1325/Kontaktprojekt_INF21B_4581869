@@ -1,11 +1,10 @@
+package Projekt;
+
 import java.io.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class DataImport {
-    public static boolean dataImportFromFile(File f) {
+    public static boolean dataImportFromFile(File f, Service service) {
         {
             int entityCounter = 0;
             String person_name, location_name, start_date, end_date;
@@ -39,7 +38,8 @@ public class DataImport {
                                     parts = line.split(",");                            //split string to ,
                                     person_id = Integer.parseInt(parts[0]);
                                     person_name = parts[1];
-                                    new Person(person_id, person_name);
+                                    service.addPersonToList(new Person(person_id, person_name));
+
                                     line = bf.readLine();
                                     break;
                                 case 2:
@@ -48,7 +48,8 @@ public class DataImport {
                                     location_id = Integer.parseInt(parts[0]);
                                     location_name = parts[1];
                                     in_door = parts[2].equalsIgnoreCase("in_door");
-                                    new Location(location_id, location_name, in_door);
+
+                                    service.addLocationToList(new Location(location_id, location_name, in_door));
                                     line = bf.readLine();
                                     break;
                                 case 3:
@@ -61,7 +62,7 @@ public class DataImport {
                                     LocalDateTime endToday = LocalDateTime.parse(parts[1]);
 
                                     // Vergleiche Zeiten mit: startToday.isBefore...
-                                    new Visit(startToday, endToday, person_id, location_id);
+                                    service.addVisitToList(new Visit(startToday, endToday, person_id, location_id));
                                     line = bf.readLine();
                                     break;
                             }

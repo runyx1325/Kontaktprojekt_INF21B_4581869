@@ -1,10 +1,11 @@
+package Projekt;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Person {
     private int id;
     private String name;
-
-
-
-
 
     //Konstruktor
     public Person(int id, String name) {
@@ -12,12 +13,6 @@ public class Person {
         this.name = name;
     }
 
-
-
-
-
-
-    //Getter-Setter
     public int getId() {
         return id;
     }
