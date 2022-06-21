@@ -56,7 +56,7 @@ public class DataImport {
                                     LocalDateTime startToday = LocalDateTime.parse(parts[0]);
                                     LocalDateTime endToday = LocalDateTime.parse(parts[1]);
 
-                                    service.addVisitToList(new Visit(startToday, endToday, person_id, location_id));    //add new Vistit to List
+                                    service.addVisitToList(new Visit(startToday, endToday, person_id, location_id));    //add new Visit to List
                                     line = bf.readLine();
                                 }
                             }

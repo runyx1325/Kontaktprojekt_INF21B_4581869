@@ -27,7 +27,7 @@ public class Location {
             return false;
         }
         Location other = (Location) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name) || Objects.equals(id, other.id);
+        return Objects.equals(id, other.id);
     }
 
     //Getter

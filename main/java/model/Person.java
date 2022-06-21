@@ -12,6 +12,7 @@ public class Person {
         this.name = name;
     }
 
+    //new equals-method to check if list contains object with this id
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -24,7 +25,7 @@ public class Person {
             return false;
         }
         Person other = (Person) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name) || Objects.equals(id, other.id);
+        return Objects.equals(id, other.id);
     }
 
     //Getter
