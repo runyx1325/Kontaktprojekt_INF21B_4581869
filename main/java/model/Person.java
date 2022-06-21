@@ -1,16 +1,15 @@
-package Projekt;
+package model;
 
 import java.util.Objects;
 
-public class Location {
-    private int id;
-    private String name;
-    private boolean in_door;
+public class Person {
+    private final int id;
+    private final String name;
 
-    public Location(int id, String name, boolean in_door) {
+    //Constructor
+    public Person(int id, String name) {
         this.id = id;
         this.name = name;
-        this.in_door = in_door;
     }
 
     @Override
@@ -24,19 +23,15 @@ public class Location {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Location other = (Location) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name)? true: Objects.equals(id, other.id);
+        Person other = (Person) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name) || Objects.equals(id, other.id);
     }
 
+    //Getter
     public int getId() {
         return id;
     }
-
     public String getName() {
         return name;
-    }
-
-    public boolean isIn_door() {
-        return in_door;
     }
 }

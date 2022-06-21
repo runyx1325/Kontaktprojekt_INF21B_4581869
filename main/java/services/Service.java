@@ -1,40 +1,38 @@
-package Projekt;
+package services;
+
+import model.Location;
+import model.Person;
+import model.Visit;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class Service {
-    List<Person> people = new ArrayList<>();
-    List<Location> locations = new ArrayList<>();
-    List<Visit> visits = new ArrayList<>();
+    List<Person> people = new ArrayList<>();                                                                            //List of all persons
+    List<Location> locations = new ArrayList<>();                                                                       //List of all locations
+    List<Visit> visits = new ArrayList<>();                                                                             //List of all visits
 
-    public boolean addPersonToList(Person person) {
+    public void addPersonToList(Person person) {                                                                        //only add person to list if person_id is not already existing
         if (people.contains(person)) {
-            return false;
         } else {
             people.add(person);
-            return true;
         }
     }
 
-    public boolean addLocationToList(Location location) {
+    public void addLocationToList(Location location) {                                                                  //only add location to list if location_id is not already existing
         if (locations.contains(location)) {
-            return false;
         } else {
             locations.add(location);
-            return true;
         }
     }
 
-    public boolean addVisitToList(Visit visit) {
+    public void addVisitToList(Visit visit) {
         visits.add(visit);
-        return true;
     }
 
-    public void personSearch(String search) {
+    public String personSearch(String search) {
         String result = "";
         for (Person person : people) {
             if (person.getName().toLowerCase().contains(search.toLowerCase())) {
@@ -43,19 +41,18 @@ public class Service {
             }
         }
         result = result.substring(0, result.length() - 2);
-        System.out.println(result);
+        return result;
     }
 
-    public void locationSearch(String search) {
+    public String locationSearch(String search) {
         String result = "";
         for (Location location : locations) {
             if (location.getName().toLowerCase().contains(search.toLowerCase())) {
-                result += location.getName();
-                result += ", ";
+                result += location.getName() + ", ";
             }
         }
         result = result.substring(0, result.length() - 2);
-        System.out.println(result);
+        return result;
     }
 
     public String showContactPersons(int id) {
@@ -69,7 +66,7 @@ public class Service {
 
         //Alle Orte an denen die ID war
         for (Visit visit : visits) {
-            if (visit.getPerson_id() == id && locationIn_door(visit.getLocation_id()) == true) {
+            if (visit.getPerson_id() == id && locationIn_door(visit.getLocation_id())) {
                 locationIdList.add(visit.getLocation_id());
                 starts.add(visit.getStartToday());
                 ends.add(visit.getEndToday());
@@ -78,16 +75,16 @@ public class Service {
 
         for (int i = 0; i < locationIdList.size(); i++) {
             for(Visit visit:visits){
-                if(visit.getPerson_id() != id){                                                                                                 //Besuche der gesuchten Person ignorieren
-                    if(visit.getLocation_id() == locationIdList.get(i)){                                                                        //Nur Besuche der aktuellen Location vergleichen
+                if(visit.getPerson_id() != id){                                                                                                   //Besuche der gesuchten model. Person ignorieren
+                    if(visit.getLocation_id() == locationIdList.get(i)){                                                                          //Nur Besuche der aktuellen model. Location vergleichen
                         if(
-                                (((visit.getStartToday().isAfter(starts.get(i)) || visit.getStartToday().isEqual(starts.get(i)))                //Ist der Startwert größer gleich Start
-                                && (visit.getStartToday().isBefore(ends.get(i))) || visit.getStartToday().isEqual(ends.get(i)))                 //und kleiner gleich Ende
-                                || ((visit.getEndToday().isAfter(starts.get(i)) || visit.getEndToday().isEqual(starts.get(i)))                  //ODER ist der Endwert größer gleich Start
-                                && (visit.getEndToday().isBefore(ends.get(i)) || visit.getEndToday().isEqual(starts.get(i)))))                  //und kleiner gleich Ende
-                                || (visit.getStartToday().isBefore(starts.get(i)) && visit.getEndToday().isAfter(ends.get(i)))                  //ODER Startwert kleiner Start und Endwert größer Ende
+                                (( (visit.getStartToday().isAfter(starts.get(i))  || visit.getStartToday().isEqual(starts.get(i)))                //Ist der Startwert größer gleich Start
+                                && (visit.getStartToday().isBefore(ends.get(i)))  || visit.getStartToday().isEqual(ends.get(i)))                  //und kleiner gleich Ende
+                                || ((visit.getEndToday().isAfter(starts.get(i))   || visit.getEndToday().isEqual(starts.get(i)))                  //ODER ist der Endwert größer gleich Start
+                                && (visit.getEndToday().isBefore(ends.get(i))     || visit.getEndToday().isEqual(starts.get(i)))))                //und kleiner gleich Ende
+                                || (visit.getStartToday().isBefore(starts.get(i)) && visit.getEndToday().isAfter(ends.get(i)))                    //ODER Startwert kleiner Start und Endwert größer Ende
 
-                        ){                                                                                                                      //Überlappen sich die beiden Besuche
+                        ){                                                                                                                        //Überlappen sich die beiden Besuche
                             contactPersonsID.add(visit.getPerson_id());
                         }
                     }
@@ -97,7 +94,7 @@ public class Service {
 
         for (Integer pID : contactPersonsID) {
             for (Person person : people) {
-                if (pID == person.getId() && result.contains(person.getName()) == false) {
+                if (pID == person.getId() && !result.contains(person.getName())) {
                     result.add(person.getName());
                 }
             }
@@ -123,9 +120,9 @@ public class Service {
         return false;
     }
 
-    String visitor(int location_id, LocalDateTime time){
+    public String visitor(int location_id, LocalDateTime time){
         String result = "";
-        boolean indoor = locationIn_door(location_id) == true;
+        boolean indoor = locationIn_door(location_id);
         List<Integer> visitorListId = new ArrayList<>();
         List<String> visitorListName = new ArrayList<>();
 
@@ -138,14 +135,14 @@ public class Service {
             }
         }
 
-        if(indoor == true){
+        if(indoor){
             for(Integer pId: visitorListId){
                 result += showContactPersons(pId) + ", ";
-                String parts[];
+                String[] parts;
                 parts = result.split(", ");
-                for(int i = 0; i < parts.length; i++){
-                    if(!(visitorListName.contains(parts[i]))){
-                        visitorListName.add(parts[i]);
+                for (String part : parts) {
+                    if (!(visitorListName.contains(part))) {
+                        visitorListName.add(part);
                     }
                 }
             }
@@ -153,7 +150,7 @@ public class Service {
 
         for (Integer pID : visitorListId) {
             for (Person person : people) {
-                if (pID == person.getId() && visitorListName.contains(person.getName()) == false) {
+                if (pID == person.getId() && !visitorListName.contains(person.getName())) {
                     visitorListName.add(person.getName());
                 }
             }
@@ -171,4 +168,3 @@ public class Service {
         return result;
     }
 }
-
