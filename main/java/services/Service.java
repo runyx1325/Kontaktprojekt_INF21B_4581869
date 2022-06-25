@@ -56,7 +56,7 @@ public class Service {
         return result.toString();
     }
 
-    public String showContactPersons(int id) {                                                                          //find contact persons by ID
+    public String showContactPersons(int person_id) {                                                                          //find contact persons by ID
         StringBuilder erg = new StringBuilder();
         List<LocalDateTime> starts = new ArrayList<>();                                                                 //creating lists for start time, end time, location ids, person ids and result
         List<LocalDateTime> ends = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Service {
         List<String> result = new ArrayList<>();
 
         for (Visit visit : visits) {
-            if (visit.getPerson_id() == id && locationIn_door(visit.getLocation_id())) {
+            if (visit.getPerson_id() == person_id && locationIn_door(visit.getLocation_id())) {
                 locationIdList.add(visit.getLocation_id());                                                             //save visited location_ids of person_id in list
                 starts.add(visit.getStartToday());                                                                      //save starting time of visits in list
                 ends.add(visit.getEndToday());                                                                          //save ending time of visits in list
@@ -75,7 +75,7 @@ public class Service {
         //find all persons that are at the same time at the same location as person_id
         for (int i = 0; i < locationIdList.size(); i++) {
             for(Visit visit:visits){
-                if(visit.getPerson_id() != id){
+                if(visit.getPerson_id() != person_id){
                     if(visit.getLocation_id() == locationIdList.get(i)){
                         if(
                                 //Overlap the time periods?
