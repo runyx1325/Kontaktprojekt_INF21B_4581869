@@ -78,12 +78,18 @@ public class Service {
                 if(visit.getPerson_id() != person_id){
                     if(visit.getLocation_id() == locationIdList.get(i)){
                         if(
-                                //Overlap the time periods?
-                                (( (visit.getStartToday().isAfter(starts.get(i))  || visit.getStartToday().isEqual(starts.get(i)))
-                                && (visit.getStartToday().isBefore(ends.get(i)))  || visit.getStartToday().isEqual(ends.get(i)))
-                                || ((visit.getEndToday().isAfter(starts.get(i))   || visit.getEndToday().isEqual(starts.get(i)))
-                                && (visit.getEndToday().isBefore(ends.get(i))     || visit.getEndToday().isEqual(starts.get(i)))))
-                                || (visit.getStartToday().isBefore(starts.get(i)) && visit.getEndToday().isAfter(ends.get(i)))
+                                //Checking if the time periods are at one second equal
+
+                                        //Fall 1: Ist die Person gekommen, während die andere noch da war
+                                        ((visit.getStartToday().isAfter(starts.get(i))    || visit.getStartToday().isEqual(starts.get(i)))
+                                        && (visit.getStartToday().isBefore(ends.get(i)))  || visit.getStartToday().isEqual(ends.get(i)))
+                                ||
+                                        //Fall 2: Ist die Person gegangen, während die andere Person noch da war
+                                        ((visit.getEndToday().isAfter(starts.get(i))   || visit.getEndToday().isEqual(starts.get(i)))
+                                        && (visit.getEndToday().isBefore(ends.get(i))  || visit.getEndToday().isEqual(starts.get(i))))
+
+                                        //Fall3: Ist die Person schon vor der anderen da gewesen und auch erst nach ihr gegangen
+                                ||      (visit.getStartToday().isBefore(starts.get(i)) && visit.getEndToday().isAfter(ends.get(i)))
 
                         ){
                             //add person_id of contact person to list

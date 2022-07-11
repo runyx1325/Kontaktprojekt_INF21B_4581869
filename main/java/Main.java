@@ -1,9 +1,7 @@
 import services.DataImport;
 import services.Service;
-
 import java.io.File;
 import java.time.LocalDateTime;
-
 public class Main{
 
     public static void main(String[] args) {
@@ -17,6 +15,7 @@ public class Main{
             arg = arg.replace("--","");                                                                                                                        //delete -- of arguments with replace
 
             //check first character of argument
+            //using advanced switch-case
             switch (arg.charAt(0)) {
                 case 'p' -> {
                     //delete redundant stuff with replace and start personSearch
